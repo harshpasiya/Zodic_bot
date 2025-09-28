@@ -1047,8 +1047,8 @@ const Dashboard = () => {
           {activeTab === 'bots' && (
             <div className="space-y-6">
               {/* Create Bot Form */}
-              <div className="cyber-card p-6 bg-black/50 border border-emerald-400/30 rounded-lg backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-emerald-400 mb-4 font-mono">CREATE TRADING BOT</h3>
+              <div className="cyber-card p-4 sm:p-6 bg-black/50 border border-emerald-400/30 rounded-lg backdrop-blur-sm">
+                <h3 className="text-lg sm:text-xl font-bold text-emerald-400 mb-4 font-mono">CREATE TRADING BOT</h3>
                 <form onSubmit={(e) => {
                   e.preventDefault();
                   const formData = new FormData(e.target);
@@ -1059,16 +1059,16 @@ const Dashboard = () => {
                     risk_percentage: parseFloat(formData.get('risk'))
                   });
                   e.target.reset();
-                }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
                   <input
                     name="name"
                     placeholder="Bot Name"
-                    className="cyber-input px-4 py-2 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none"
+                    className="cyber-input px-3 sm:px-4 py-2 sm:py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none text-sm sm:text-base"
                     required
                   />
                   <select
                     name="strategy"
-                    className="cyber-input px-4 py-2 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none"
+                    className="cyber-input px-3 sm:px-4 py-2 sm:py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none text-sm sm:text-base"
                     required
                   >
                     <option value="">Select Strategy</option>
@@ -1081,7 +1081,7 @@ const Dashboard = () => {
                     name="capital"
                     type="number"
                     placeholder="Capital (₹)"
-                    className="cyber-input px-4 py-2 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none"
+                    className="cyber-input px-3 sm:px-4 py-2 sm:py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none text-sm sm:text-base"
                     required
                   />
                   <input
@@ -1090,11 +1090,11 @@ const Dashboard = () => {
                     step="0.1"
                     placeholder="Risk %"
                     defaultValue="2.0"
-                    className="cyber-input px-4 py-2 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none"
+                    className="cyber-input px-3 sm:px-4 py-2 sm:py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none text-sm sm:text-base"
                   />
                   <button
                     type="submit"
-                    className="cyber-button px-6 py-2 bg-emerald-500 text-black font-mono font-bold rounded hover:bg-emerald-400 transition-all duration-300"
+                    className="cyber-button px-4 sm:px-6 py-2 sm:py-3 bg-emerald-500 text-black font-mono font-bold rounded hover:bg-emerald-400 transition-all duration-300 text-sm sm:text-base sm:col-span-2 lg:col-span-1"
                   >
                     CREATE BOT
                   </button>
