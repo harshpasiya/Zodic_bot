@@ -976,17 +976,19 @@ const Dashboard = () => {
               )}
 
               {/* Market Overview */}
-              <div className="cyber-card p-6 bg-black/50 border border-emerald-400/30 rounded-lg backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-emerald-400 mb-4 font-mono">MARKET OVERVIEW</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="cyber-card p-4 sm:p-6 bg-black/50 border border-emerald-400/30 rounded-lg backdrop-blur-sm">
+                <h3 className="text-lg sm:text-xl font-bold text-emerald-400 mb-4 font-mono">MARKET OVERVIEW</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                   {Object.entries(marketData).slice(0, 8).map(([symbol, data]) => (
-                    <div key={symbol} className="p-4 border border-gray-700 rounded bg-black/30">
-                      <div className="font-mono text-emerald-400 font-bold">{symbol}</div>
-                      <div className="text-lg font-bold">₹{data.price}</div>
-                      <div className={`text-sm ${
+                    <div key={symbol} className="p-3 sm:p-4 border border-gray-700 rounded bg-black/30 feature-card-mobile">
+                      <div className="font-mono text-emerald-400 font-bold text-xs sm:text-sm">{symbol}</div>
+                      <div className="text-sm sm:text-lg font-bold">₹{data.price}</div>
+                      <div className={`text-xs sm:text-sm ${
                         data.change >= 0 ? 'text-green-400' : 'text-red-400'
                       }`}>
                         {data.change >= 0 ? '+' : ''}{data.change} 
+                        <br className="sm:hidden" />
+                        <span className="hidden sm:inline"> </span>
                         ({((data.change/data.price)*100).toFixed(2)}%)
                       </div>
                     </div>
