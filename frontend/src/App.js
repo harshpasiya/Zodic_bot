@@ -912,32 +912,38 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
       {/* Header */}
       <header className="border-b border-emerald-400/30 bg-black/50 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-emerald-400 font-mono glitch-text">
-            ZODIC {isAdmin ? 'ADMIN' : 'CLIENT'}
-          </div>
-          <div className="flex items-center space-x-6">
-            <div className="text-sm text-gray-300">
-              Welcome, <span className="text-emerald-400 font-mono">{user?.name}</span>
+        <div className="container mx-auto px-4 sm:px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="text-lg sm:text-2xl font-bold text-emerald-400 font-mono glitch-text">
+              ZODIC {isAdmin ? 'ADMIN' : 'CLIENT'}
             </div>
-            <button
-              onClick={logout}
-              className="cyber-button px-4 py-2 border border-red-400 text-red-400 font-mono hover:bg-red-400 hover:text-black transition-all duration-300"
-            >
-              DISCONNECT
-            </button>
+            <div className="flex items-center space-x-2 sm:space-x-6">
+              <div className="text-xs sm:text-sm text-gray-300 hidden sm:block">
+                Welcome, <span className="text-emerald-400 font-mono">{user?.name}</span>
+              </div>
+              <div className="text-xs sm:text-sm text-gray-300 sm:hidden">
+                <span className="text-emerald-400 font-mono">{user?.name}</span>
+              </div>
+              <button
+                onClick={logout}
+                className="cyber-button px-3 py-2 sm:px-4 sm:py-2 border border-red-400 text-red-400 font-mono hover:bg-red-400 hover:text-black transition-all duration-300 text-xs sm:text-sm"
+              >
+                <span className="hidden sm:block">DISCONNECT</span>
+                <span className="sm:hidden">EXIT</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 dashboard-mobile">
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 mb-8 overflow-x-auto">
+        <div className="flex space-x-1 mb-6 sm:mb-8 overflow-x-auto dashboard-tabs-mobile pb-2">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 font-mono text-sm uppercase transition-all duration-300 border-b-2 whitespace-nowrap ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 font-mono text-xs sm:text-sm uppercase transition-all duration-300 border-b-2 whitespace-nowrap tab-button-mobile ${
                 activeTab === tab
                   ? 'text-emerald-400 border-emerald-400 bg-emerald-400/10'
                   : 'text-gray-400 border-transparent hover:text-emerald-400 hover:border-emerald-400/50'
