@@ -116,10 +116,170 @@ const LoadingSpinner = () => (
   </div>
 );
 
+// Auth Form Component
+const AuthForm = () => {
+  const { login } = useAuth();
+  const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    name: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Instead of traditional auth, redirect to Emergent Auth
+    login();
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="text-4xl font-bold text-emerald-400 font-mono glitch-text mb-2">
+            ZODIC
+          </div>
+          <p className="text-gray-400 text-sm">Automated Trading Revolution</p>
+        </div>
+
+        {/* Auth Form */}
+        <div className="cyber-card p-6 sm:p-8 bg-black/80 border border-emerald-400/30 rounded-lg backdrop-blur-sm">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-emerald-400 font-mono mb-2">
+              {isSignup ? 'CREATE ACCOUNT' : 'SIGN IN'}
+            </h2>
+            <p className="text-gray-400 text-sm">
+              {isSignup ? 'Join the trading revolution' : 'Access your trading dashboard'}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isSignup && (
+              <div>
+                <label className="block text-sm font-mono text-emerald-400 mb-2">
+                  FULL NAME
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="cyber-input w-full px-4 py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none transition-all duration-300"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-mono text-emerald-400 mb-2">
+                EMAIL ADDRESS
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="cyber-input w-full px-4 py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none transition-all duration-300"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-mono text-emerald-400 mb-2">
+                PASSWORD
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="cyber-input w-full px-4 py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none transition-all duration-300"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            {isSignup && (
+              <div>
+                <label className="block text-sm font-mono text-emerald-400 mb-2">
+                  CONFIRM PASSWORD
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  className="cyber-input w-full px-4 py-3 bg-black/50 border border-emerald-400/50 text-white font-mono rounded focus:border-emerald-400 focus:outline-none transition-all duration-300"
+                  placeholder="Confirm your password"
+                  required
+                />
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full cyber-button-large px-6 py-4 bg-emerald-500 text-black font-mono font-bold rounded hover:bg-emerald-400 transition-all duration-300 transform hover:scale-105"
+            >
+              {isSignup ? 'CREATE ACCOUNT' : 'SIGN IN'}
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-gray-400 text-sm mb-4">
+              {isSignup ? 'Already have an account?' : "Don't have an account?"}
+            </p>
+            <button
+              onClick={() => setIsSignup(!isSignup)}
+              className="text-emerald-400 font-mono text-sm hover:text-emerald-300 transition-colors duration-300 underline"
+            >
+              {isSignup ? 'SIGN IN' : 'CREATE ACCOUNT'}
+            </button>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-emerald-400/20">
+            <p className="text-center text-xs text-gray-500 font-mono">
+              Secure authentication powered by advanced encryption
+            </p>
+          </div>
+        </div>
+
+        {/* Back to Home */}
+        <div className="text-center mt-6">
+          <button
+            onClick={() => window.location.href = '/'}
+            className="text-gray-400 font-mono text-sm hover:text-emerald-400 transition-colors duration-300"
+          >
+            ← Back to Home
+          </button>
+        </div>
+      </div>
+
+      {/* Animated background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5 animate-pulse"></div>
+        <div className="grid-pattern"></div>
+      </div>
+    </div>
+  );
+};
+
 // Landing Page Component
 const LandingPage = () => {
   const { login } = useAuth();
   const [activeFeature, setActiveFeature] = useState(0);
+  const [showAuthForm, setShowAuthForm] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const features = [
     {
@@ -144,68 +304,172 @@ const LandingPage = () => {
     }
   ];
 
+  const strategies = [
+    {
+      name: "Momentum Trading",
+      description: "Capture strong price movements with trend-following algorithms",
+      returns: "12-18%",
+      risk: "Medium"
+    },
+    {
+      name: "Mean Reversion",
+      description: "Profit from price corrections in overbought/oversold conditions",
+      returns: "8-12%",
+      risk: "Low"
+    },
+    {
+      name: "Scalping",
+      description: "High-frequency micro-profits from small price movements",
+      returns: "15-25%",
+      risk: "High"
+    },
+    {
+      name: "Swing Trading",
+      description: "Multi-day position holds for larger price swings",
+      returns: "10-15%",
+      risk: "Medium"
+    }
+  ];
+
+  const testimonials = [
+    {
+      name: "Raj Patel",
+      role: "Day Trader",
+      comment: "ZODIC has revolutionized my trading. The AI predictions are incredibly accurate!",
+      profit: "+₹2,50,000"
+    },
+    {
+      name: "Priya Sharma",
+      role: "Investment Manager",
+      comment: "Best automated trading platform for Indian markets. Excellent risk management.",
+      profit: "+₹8,75,000"
+    },
+    {
+      name: "Arjun Kumar",
+      role: "Retail Investor",
+      comment: "Even as a beginner, I'm making consistent profits with ZODIC's smart algorithms.",
+      profit: "+₹1,25,000"
+    }
+  ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [features.length]);
 
+  if (showAuthForm) {
+    return <AuthForm />;
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
       {/* Navigation */}
-      <nav className="relative z-10 p-6 flex justify-between items-center">
-        <div className="text-3xl font-bold text-emerald-400 font-mono glitch-text">
-          ZODIC
+      <nav className="relative z-50 bg-black/90 backdrop-blur-sm border-b border-emerald-400/20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex justify-between items-center py-4">
+            <div className="text-2xl sm:text-3xl font-bold text-emerald-400 font-mono glitch-text">
+              ZODIC
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#features" className="text-gray-300 hover:text-emerald-400 font-mono text-sm transition-colors">FEATURES</a>
+              <a href="#strategies" className="text-gray-300 hover:text-emerald-400 font-mono text-sm transition-colors">STRATEGIES</a>
+              <a href="#testimonials" className="text-gray-300 hover:text-emerald-400 font-mono text-sm transition-colors">REVIEWS</a>
+              <a href="#pricing" className="text-gray-300 hover:text-emerald-400 font-mono text-sm transition-colors">PRICING</a>
+              <button
+                onClick={() => setShowAuthForm(true)}
+                className="cyber-button px-6 py-2 bg-emerald-500/20 border border-emerald-400 text-emerald-400 font-mono text-sm transition-all duration-300 hover:bg-emerald-400 hover:text-black"
+              >
+                SIGN IN
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden text-emerald-400 p-2"
+            >
+              <div className="space-y-1">
+                <div className="w-6 h-0.5 bg-emerald-400"></div>
+                <div className="w-6 h-0.5 bg-emerald-400"></div>
+                <div className="w-6 h-0.5 bg-emerald-400"></div>
+              </div>
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-emerald-400/20 py-4">
+              <div className="space-y-4">
+                <a href="#features" className="block text-gray-300 hover:text-emerald-400 font-mono text-sm px-4 py-2">FEATURES</a>
+                <a href="#strategies" className="block text-gray-300 hover:text-emerald-400 font-mono text-sm px-4 py-2">STRATEGIES</a>
+                <a href="#testimonials" className="block text-gray-300 hover:text-emerald-400 font-mono text-sm px-4 py-2">REVIEWS</a>
+                <a href="#pricing" className="block text-gray-300 hover:text-emerald-400 font-mono text-sm px-4 py-2">PRICING</a>
+                <div className="px-4">
+                  <button
+                    onClick={() => setShowAuthForm(true)}
+                    className="w-full cyber-button px-6 py-3 bg-emerald-500/20 border border-emerald-400 text-emerald-400 font-mono text-sm"
+                  >
+                    SIGN IN
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <button
-          onClick={login}
-          className="cyber-button px-8 py-3 bg-emerald-500/20 border border-emerald-400 text-emerald-400 font-mono transition-all duration-300 hover:bg-emerald-400 hover:text-black hover:shadow-lg hover:shadow-emerald-400/50"
-        >
-          CONNECT
-        </button>
       </nav>
 
       {/* Hero Section */}
-      <div className="relative z-10 container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 font-mono">
+      <section className="relative z-10 container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold mb-6 font-mono leading-tight">
             <span className="text-white">AUTOMATED</span>
             <br />
             <span className="text-emerald-400 glitch-text">TRADING</span>
             <br />
             <span className="text-white">REVOLUTION</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto font-light">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto font-light px-4">
             Next-generation AI trading bots for the Indian stock market. 
-            <br />Maximize profits while minimizing risks.
+            <br className="hidden sm:block" />Maximize profits while minimizing risks with advanced algorithms.
           </p>
-          <button
-            onClick={login}
-            className="cyber-button-large px-12 py-4 bg-emerald-500 text-black font-mono text-xl font-bold transition-all duration-300 hover:bg-emerald-400 hover:shadow-2xl hover:shadow-emerald-400/50 transform hover:scale-105"
-          >
-            START TRADING
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button
+              onClick={login}
+              className="cyber-button-large px-8 sm:px-12 py-3 sm:py-4 bg-emerald-500 text-black font-mono text-lg sm:text-xl font-bold transition-all duration-300 hover:bg-emerald-400 hover:shadow-2xl hover:shadow-emerald-400/50 transform hover:scale-105 w-full sm:w-auto"
+            >
+              START TRADING
+            </button>
+            <button
+              onClick={() => setShowAuthForm(true)}
+              className="cyber-button px-8 sm:px-12 py-3 sm:py-4 border border-emerald-400 text-emerald-400 font-mono text-lg sm:text-xl transition-all duration-300 hover:bg-emerald-400 hover:text-black w-full sm:w-auto"
+            >
+              VIEW DEMO
+            </button>
+          </div>
         </div>
 
         {/* Features Carousel */}
-        <div className="max-w-4xl mx-auto mb-20">
-          <div className="relative h-64 overflow-hidden rounded-lg border border-emerald-400/30 bg-black/50 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto mb-16 sm:mb-20">
+          <div className="relative h-48 sm:h-64 overflow-hidden rounded-lg border border-emerald-400/30 bg-black/50 backdrop-blur-sm">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 flex items-center justify-center p-8 transition-all duration-1000 ${
+                className={`absolute inset-0 flex items-center justify-center p-4 sm:p-8 transition-all duration-1000 ${
                   index === activeFeature
                     ? 'opacity-100 transform translate-x-0'
                     : 'opacity-0 transform translate-x-full'
                 }`}
               >
-                <div className="text-center">
-                  <div className="text-6xl mb-4">{feature.icon}</div>
-                  <h3 className="text-2xl font-bold text-emerald-400 mb-4 font-mono">
+                <div className="text-center max-w-2xl">
+                  <div className="text-4xl sm:text-6xl mb-4">{feature.icon}</div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-emerald-400 mb-4 font-mono">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-300 text-lg">{feature.description}</p>
+                  <p className="text-gray-300 text-sm sm:text-lg px-4">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -228,21 +492,292 @@ const LandingPage = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="text-center p-6 border border-emerald-400/30 rounded-lg bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all duration-300">
-            <div className="text-4xl font-bold text-emerald-400 mb-2 font-mono">99.9%</div>
-            <div className="text-gray-300">Uptime</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+          <div className="text-center p-4 sm:p-6 border border-emerald-400/30 rounded-lg bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all duration-300 card-hover">
+            <div className="text-3xl sm:text-4xl font-bold text-emerald-400 mb-2 font-mono">99.9%</div>
+            <div className="text-gray-300 text-sm sm:text-base">Uptime</div>
           </div>
-          <div className="text-center p-6 border border-emerald-400/30 rounded-lg bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all duration-300">
-            <div className="text-4xl font-bold text-emerald-400 mb-2 font-mono">24/7</div>
-            <div className="text-gray-300">Market Monitoring</div>
+          <div className="text-center p-4 sm:p-6 border border-emerald-400/30 rounded-lg bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all duration-300 card-hover">
+            <div className="text-3xl sm:text-4xl font-bold text-emerald-400 mb-2 font-mono">24/7</div>
+            <div className="text-gray-300 text-sm sm:text-base">Market Monitoring</div>
           </div>
-          <div className="text-center p-6 border border-emerald-400/30 rounded-lg bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all duration-300">
-            <div className="text-4xl font-bold text-emerald-400 mb-2 font-mono">1000+</div>
-            <div className="text-gray-300">Active Traders</div>
+          <div className="text-center p-4 sm:p-6 border border-emerald-400/30 rounded-lg bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all duration-300 card-hover sm:col-span-2 lg:col-span-1">
+            <div className="text-3xl sm:text-4xl font-bold text-emerald-400 mb-2 font-mono">5000+</div>
+            <div className="text-gray-300 text-sm sm:text-base">Active Traders</div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Trading Strategies Section */}
+      <section id="strategies" className="py-16 sm:py-20 bg-black/50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-5xl font-bold text-emerald-400 font-mono mb-4">
+              TRADING STRATEGIES
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
+              Choose from proven algorithmic strategies tailored for the Indian market
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {strategies.map((strategy, index) => (
+              <div key={index} className="cyber-card p-4 sm:p-6 bg-black/80 border border-emerald-400/30 rounded-lg backdrop-blur-sm hover:bg-black/90 transition-all duration-300 card-hover">
+                <h3 className="text-lg sm:text-xl font-bold text-emerald-400 font-mono mb-3">
+                  {strategy.name.toUpperCase()}
+                </h3>
+                <p className="text-gray-300 text-sm sm:text-base mb-4 leading-relaxed">
+                  {strategy.description}
+                </p>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400 text-sm">Expected Returns:</span>
+                    <span className="text-emerald-400 font-mono text-sm">{strategy.returns}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400 text-sm">Risk Level:</span>
+                    <span className={`font-mono text-sm ${
+                      strategy.risk === 'Low' ? 'text-green-400' :
+                      strategy.risk === 'Medium' ? 'text-yellow-400' : 'text-red-400'
+                    }`}>
+                      {strategy.risk}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-16 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-5xl font-bold text-emerald-400 font-mono mb-4">
+              SUCCESS STORIES
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
+              Real profits from real traders using ZODIC
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="cyber-card p-4 sm:p-6 bg-black/80 border border-emerald-400/30 rounded-lg backdrop-blur-sm hover:bg-black/90 transition-all duration-300 card-hover">
+                <div className="text-center mb-4">
+                  <div className="text-2xl sm:text-3xl font-bold text-emerald-400 font-mono mb-2">
+                    {testimonial.profit}
+                  </div>
+                  <div className="text-gray-400 text-sm">Total Profit</div>
+                </div>
+                <p className="text-gray-300 text-sm sm:text-base mb-4 italic">
+                  "{testimonial.comment}"
+                </p>
+                <div className="border-t border-emerald-400/20 pt-4">
+                  <div className="font-bold text-emerald-400 font-mono text-sm sm:text-base">
+                    {testimonial.name}
+                  </div>
+                  <div className="text-gray-400 text-xs sm:text-sm">
+                    {testimonial.role}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-16 sm:py-20 bg-black/50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-5xl font-bold text-emerald-400 font-mono mb-4">
+              PRICING PLANS
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
+              Choose the perfect plan for your trading goals
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            {/* Starter Plan */}
+            <div className="cyber-card p-6 sm:p-8 bg-black/80 border border-emerald-400/30 rounded-lg backdrop-blur-sm hover:bg-black/90 transition-all duration-300 card-hover">
+              <div className="text-center mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-emerald-400 font-mono mb-2">STARTER</h3>
+                <div className="text-3xl sm:text-4xl font-bold text-white mb-1">₹999</div>
+                <div className="text-gray-400 text-sm">/month</div>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  1 Trading Bot
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Basic Strategies
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Email Support
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Real-time Analytics
+                </li>
+              </ul>
+              <button className="w-full cyber-button px-6 py-3 border border-emerald-400 text-emerald-400 font-mono hover:bg-emerald-400 hover:text-black transition-all duration-300">
+                GET STARTED
+              </button>
+            </div>
+
+            {/* Professional Plan - Highlighted */}
+            <div className="cyber-card p-6 sm:p-8 bg-black/90 border-2 border-emerald-400 rounded-lg backdrop-blur-sm relative hover:bg-black/95 transition-all duration-300 card-hover">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="bg-emerald-400 text-black px-4 py-1 text-xs font-mono font-bold rounded-full">
+                  MOST POPULAR
+                </span>
+              </div>
+              <div className="text-center mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-emerald-400 font-mono mb-2">PROFESSIONAL</h3>
+                <div className="text-3xl sm:text-4xl font-bold text-white mb-1">₹2,999</div>
+                <div className="text-gray-400 text-sm">/month</div>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  5 Trading Bots
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Advanced Strategies
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Priority Support
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Advanced Analytics
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Risk Management Tools
+                </li>
+              </ul>
+              <button className="w-full cyber-button-large px-6 py-3 bg-emerald-500 text-black font-mono font-bold hover:bg-emerald-400 transition-all duration-300">
+                GET STARTED
+              </button>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="cyber-card p-6 sm:p-8 bg-black/80 border border-emerald-400/30 rounded-lg backdrop-blur-sm hover:bg-black/90 transition-all duration-300 card-hover">
+              <div className="text-center mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-emerald-400 font-mono mb-2">ENTERPRISE</h3>
+                <div className="text-3xl sm:text-4xl font-bold text-white mb-1">₹9,999</div>
+                <div className="text-gray-400 text-sm">/month</div>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Unlimited Bots
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Custom Strategies
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  24/7 Phone Support
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  White-label Solution
+                </li>
+                <li className="flex items-center text-sm sm:text-base">
+                  <span className="text-emerald-400 mr-2">✓</span>
+                  Dedicated Account Manager
+                </li>
+              </ul>
+              <button className="w-full cyber-button px-6 py-3 border border-emerald-400 text-emerald-400 font-mono hover:bg-emerald-400 hover:text-black transition-all duration-300">
+                CONTACT SALES
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl sm:text-5xl font-bold text-emerald-400 font-mono mb-6">
+            READY TO START?
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Join thousands of successful traders using ZODIC's AI-powered platform
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button
+              onClick={login}
+              className="cyber-button-large px-8 sm:px-12 py-3 sm:py-4 bg-emerald-500 text-black font-mono text-lg sm:text-xl font-bold transition-all duration-300 hover:bg-emerald-400 hover:shadow-2xl hover:shadow-emerald-400/50 transform hover:scale-105 w-full sm:w-auto"
+            >
+              START FREE TRIAL
+            </button>
+            <button
+              onClick={() => setShowAuthForm(true)}
+              className="cyber-button px-8 sm:px-12 py-3 sm:py-4 border border-emerald-400 text-emerald-400 font-mono text-lg sm:text-xl transition-all duration-300 hover:bg-emerald-400 hover:text-black w-full sm:w-auto"
+            >
+              SCHEDULE DEMO
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black/90 border-t border-emerald-400/20 py-8 sm:py-12">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div>
+              <div className="text-2xl font-bold text-emerald-400 font-mono mb-4">ZODIC</div>
+              <p className="text-gray-400 text-sm mb-4">
+                Revolutionizing automated trading for the Indian stock market with AI-powered algorithms.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-emerald-400 font-mono font-bold mb-4">PLATFORM</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Features</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Strategies</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Pricing</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">API</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-emerald-400 font-mono font-bold mb-4">SUPPORT</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Help Center</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Documentation</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Contact Us</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Status</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-emerald-400 font-mono font-bold mb-4">LEGAL</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Risk Disclosure</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-emerald-400 transition-colors">Compliance</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-emerald-400/20 mt-8 pt-8 text-center">
+            <p className="text-gray-400 text-sm font-mono">
+              © 2024 ZODIC. All rights reserved. Trading involves risk and may not be suitable for all investors.
+            </p>
+          </div>
+        </div>
+      </footer>
 
       {/* Animated background */}
       <div className="fixed inset-0 z-0">
