@@ -300,16 +300,128 @@ body {
 /* Responsive design helpers */
 @media (max-width: 768px) {
   .cyber-button-large {
-    padding: 12px 24px;
+    padding: 12px 20px;
     font-size: 14px;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%);
+  }
+  
+  .cyber-button {
+    padding: 10px 16px;
+    font-size: 12px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%);
   }
   
   .glitch-text {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
   .cyber-card {
-    margin: 0 10px;
+    margin: 0;
+    padding: 16px;
+    border-radius: 6px;
+  }
+  
+  .cyber-input {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+  
+  /* Mobile navigation improvements */
+  .mobile-menu {
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  /* Mobile form improvements */
+  .auth-form-mobile {
+    max-width: 100%;
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  /* Mobile dashboard improvements */
+  .dashboard-mobile {
+    padding: 16px;
+  }
+  
+  .dashboard-tabs-mobile {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .dashboard-tabs-mobile::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .tab-button-mobile {
+    min-width: 120px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .cyber-button-large {
+    padding: 10px 16px;
+    font-size: 12px;
+    width: 100%;
+  }
+  
+  .cyber-button {
+    padding: 8px 12px;
+    font-size: 11px;
+    width: 100%;
+  }
+  
+  .glitch-text {
+    font-size: 1.5rem;
+  }
+  
+  .cyber-card {
+    padding: 12px;
+    margin: 0;
+  }
+  
+  .cyber-input {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  /* Extra small mobile adjustments */
+  .hero-title-mobile {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  
+  .stats-card-mobile {
+    padding: 12px;
+  }
+  
+  .feature-card-mobile {
+    padding: 16px;
+    text-align: center;
+  }
+}
+
+/* Container max-width improvements */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 32px;
+    padding-right: 32px;
   }
 }
 
