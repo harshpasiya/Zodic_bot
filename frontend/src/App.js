@@ -1279,23 +1279,50 @@ const Dashboard = () => {
 // Main App Component
 const App = () => {
   const { user, loading, processingAuth } = useAuth();
+  const [currentPage, setCurrentPage] = useState('home');
+
+  useEffect(() => {
+    // Handle routing based on URL path
+    const path = window.location.pathname;
+    if (path === '/dashboard' || (user && path === '/')) {
+      setCurrentPage('dashboard');
+    } else if (path === '/login' || path === '/signup') {
+      setCurrentPage('auth');
+    } else {
+      setCurrentPage('home');
+    }
+  }, [user]);
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (user && currentPage !== 'dashboard') {
+      setCurrentPage('dashboard');
+      window.history.pushState({}, '', '/dashboard');
+    }
+  }, [user, currentPage]);
 
   if (loading || processingAuth) {
     return <LoadingSpinner />;
   }
 
-  // Check if user is authenticated and on dashboard route
-  const isOnDashboard = window.location.pathname === '/dashboard' || user;
-  
-  if (user && !isOnDashboard) {
-    // Redirect authenticated users to dashboard
-    window.location.href = '/dashboard';
-    return <LoadingSpinner />;
-  }
+  const renderPage = () => {
+    if (user) {
+      return <Dashboard />;
+    }
+
+    switch (currentPage) {
+      case 'dashboard':
+        return user ? <Dashboard /> : <LandingPage />;
+      case 'auth':
+        return <AuthForm />;
+      default:
+        return <LandingPage />;
+    }
+  };
 
   return (
     <div className="App">
-      {user ? <Dashboard /> : <LandingPage />}
+      {renderPage()}
     </div>
   );
 };
