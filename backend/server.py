@@ -229,7 +229,7 @@ async def get_all_users(request: Request, session_token: Optional[str] = Cookie(
     return [User(**user) for user in users]
 
 @app.put("/api/admin/users/{user_id}/role")
-async def update_user_role(user_id: str, role: str, request: Request, session_token: Optional[str] = Cookie(None)):
+async def update_user_role(user_id: str, request: Request, session_token: Optional[str] = Cookie(None)):
     """Update user role (Admin only)"""
     current_user = await get_current_user(request, session_token)
     if not current_user or current_user.role != "admin":
