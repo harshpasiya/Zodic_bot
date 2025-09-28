@@ -961,13 +961,13 @@ const Dashboard = () => {
             <div className="space-y-8">
               {/* Analytics Cards */}
               {analytics && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                   {Object.entries(analytics).map(([key, value]) => (
-                    <div key={key} className="cyber-card p-6 bg-black/50 border border-emerald-400/30 rounded-lg backdrop-blur-sm hover:bg-black/70 transition-all duration-300">
-                      <div className="text-3xl font-bold text-emerald-400 mb-2 font-mono">
+                    <div key={key} className="cyber-card p-3 sm:p-6 bg-black/50 border border-emerald-400/30 rounded-lg backdrop-blur-sm hover:bg-black/70 transition-all duration-300 stats-card-mobile">
+                      <div className="text-xl sm:text-3xl font-bold text-emerald-400 mb-1 sm:mb-2 font-mono">
                         {typeof value === 'number' && value > 1000 ? `${(value/1000).toFixed(1)}K` : value}
                       </div>
-                      <div className="text-gray-300 text-sm uppercase tracking-wide">
+                      <div className="text-gray-300 text-xs sm:text-sm uppercase tracking-wide leading-tight">
                         {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                       </div>
                     </div>
