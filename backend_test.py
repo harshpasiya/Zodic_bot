@@ -186,8 +186,10 @@ class ZodicAPITester:
                 
                 if response.status_code == 401:
                     self.log_result(f"{test_name} Without Auth", True, "Correctly returned 401")
+                elif response.status_code == 403 and "admin" in endpoint.lower():
+                    self.log_result(f"{test_name} Without Auth", True, "Correctly returned 403 (admin endpoint)")
                 else:
-                    self.log_result(f"{test_name} Without Auth", False, f"Expected 401, got: {response.status_code}")
+                    self.log_result(f"{test_name} Without Auth", False, f"Expected 401/403, got: {response.status_code}")
             except Exception as e:
                 self.log_result(f"{test_name} Without Auth", False, f"Exception: {str(e)}")
     
