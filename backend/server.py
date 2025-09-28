@@ -235,7 +235,11 @@ async def update_user_role(user_id: str, request: Request, session_token: Option
     if not current_user or current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    if role not in ["admin", "client"]:
+    # Get role from request body
+    body = await request.json()
+    role = body.get("role")
+    
+    if not role or role not in ["admin", "client"]:
         raise HTTPException(status_code=400, detail="Invalid role")
     
     result = await db.users.update_one(
